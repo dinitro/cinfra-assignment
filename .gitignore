@@ -1,0 +1,15 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.venv/
+.terraform/
+# Reusable modules don't commit lock files; only the infra/local and infra/aws roots do.
+infra/modules/**/.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfplan
+crash*.log
+infra/aws/terraform.tfvars
+infra/aws/backend.hcl
+infra/aws/backend.tf
+.env

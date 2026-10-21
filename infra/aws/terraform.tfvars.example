@@ -1,0 +1,5 @@
+aws_account_id = "123456789012" # Replace with your own account ID.
+region         = "eu-central-1"
+name_prefix    = "cinfra-dev"
+
+public_urls    = false

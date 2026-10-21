@@ -1,0 +1,8 @@
+{
+  "length": {
+    "source_dir": "functions/length"
+  },
+  "json-validator": {
+    "source_dir": "functions/json_validator"
+  }
+}
