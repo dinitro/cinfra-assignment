@@ -12,4 +12,5 @@ crash*.log
 infra/aws/terraform.tfvars
 infra/aws/backend.hcl
 infra/aws/backend.tf
+infra/bootstrap/terraform.tfvars
 .env

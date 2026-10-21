@@ -122,10 +122,12 @@ This deliberately supports **standard-library Python sources only**. Non-Python 
 | `infra/modules/lambda-service/` | Packaging, shared HTTP adapter, IAM, logging, URL |
 | `infra/local/` | Local-only provider endpoints, dummy credentials, separate state |
 | `infra/aws/` | Account guard, IAM-authenticated URLs, caller policy |
+| `infra/bootstrap/` | GitHub OIDC provider, scoped deploy role, Terraform state bucket — applied once by hand |
 | `tests/` | Python unit tests for the handlers and HTTP adapter |
-| `infra/modules/lambda-service/tests/`, `infra/aws/tests/` | Terraform tests for the module and the AWS root, with a mocked provider |
+| `infra/modules/lambda-service/tests/`, `infra/aws/tests/`, `infra/bootstrap/tests/` | Terraform tests for the module and both AWS roots, with a mocked provider |
 | `scripts/smoke.py` | Deployed HTTP integration tests |
 | `.github/workflows/ci.yml` | Same checks, local deployment, smoke tests, drift check, unconditional cleanup |
+| `.github/workflows/deploy-aws.yml`, `destroy-aws.yml` | OIDC-authenticated deploy/destroy of `infra/aws`, gated by a GitHub Environment approval; see [deploying to AWS](docs/aws.md) |
 
 ## Deliberately not built
 
@@ -134,11 +136,11 @@ This deliberately supports **standard-library Python sources only**. Non-Python 
 - **VPC/NAT, databases, queues, retries, DLQs:** stateless synchronous functions with no private resources or side effects.
 - **X-Ray/OpenTelemetry:** there are no downstream calls to trace.
 - **Containers, layers, third-party dependencies:** two standard-library Python files plus the adapter.
-- **Aliases, canaries, multi-environment framework, AWS deployment pipeline:** disproportionate here; a production pipeline needs an account, approvals, remote state, and OIDC first.
+- **Aliases, canaries, multi-environment framework:** disproportionate for two stateless functions in one environment.
 
 ## What is proven
 
-LocalStack proves the packaging, deployment, and HTTP path, **not** AWS IAM enforcement, billing, quotas, or real concurrency. The AWS root is validated and tested with provider mocks only; real AWS verification is a separate gate. CI needs no AWS secrets and never deploys into AWS.
+LocalStack proves the packaging, deployment, and HTTP path, **not** AWS IAM enforcement, billing, quotas, or real concurrency. The AWS root is validated and tested with provider mocks only; real AWS verification is a separate gate. The `ci.yml` workflow needs no AWS credentials and never deploys into AWS; only `deploy-aws.yml`/`destroy-aws.yml` do, authenticating via GitHub OIDC behind a required manual approval — see [deploying to AWS](docs/aws.md).
 
 ### Further reading
 
