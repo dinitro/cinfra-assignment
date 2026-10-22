@@ -72,9 +72,12 @@ Then, one-time setup in GitHub:
    in `.github/workflows/deploy-aws.yml` and `destroy-aws.yml` reference only `vars.*`, never
    `secrets.*`.
 
-From here, pushing to `main` runs `deploy-aws.yml`, which pauses for your environment approval
-before `terraform apply`. `destroy-aws.yml` is manual-only (`workflow_dispatch`) and pauses the
-same way before `terraform destroy`.
+From here, both `deploy-aws.yml` and `destroy-aws.yml` are manual-only (`workflow_dispatch`, run
+from the Actions tab) and pause for your environment approval before `terraform apply`/`destroy`.
+`deploy-aws.yml` is not triggered by pushes to `main` — this pipeline has never been run against
+a real AWS account (every sandbox account created for this project landed in an AWS Organization
+with restrictive default Service Control Policies blocking the exact permissions `infra/bootstrap`
+needs), so it stays opt-in rather than running, and failing, on every push.
 
 If you've already applied `infra/aws` locally with local state, migrate it into the new backend
 once:

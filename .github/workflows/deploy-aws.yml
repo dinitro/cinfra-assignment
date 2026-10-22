@@ -1,8 +1,9 @@
 name: Deploy to AWS
 
+# Manual-only: this was never run against a real AWS account (see docs/aws.md), and an
+# automatic push trigger would fail every push to main since no sandbox account/vars exist.
 on:
-  push:
-    branches: [main]
+  workflow_dispatch: {}
 
 permissions:
   id-token: write
