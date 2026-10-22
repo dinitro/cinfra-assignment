@@ -9,7 +9,7 @@ code + services.json ── Terraform ── lambda-service module × 2
                                      ├─ Python 3.14 Lambda
                                      ├─ Function URL
                                      ├─ dedicated execution role
-                                     └─ retained CloudWatch log group
+                                     └─ CloudWatch log group with bounded retention
 
 Local: LocalStack, dummy credentials, public demo URLs on loopback
 AWS:   separate root/state, IAM-authenticated URLs by default
